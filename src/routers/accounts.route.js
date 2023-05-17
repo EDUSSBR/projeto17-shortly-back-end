@@ -1,20 +1,11 @@
 import { Router } from "express";
+import { signUp } from "../controllers/accounts.controller.js";
+import { validateConfirmedPassword } from "../middlewares/validateConfirmedPassword.js";
+import { validateSchema } from "../middlewares/validate.js";
+import { signUpSchema } from "../schemas/signUpSchema.js";
 
 
 const accountsRoute = Router();
-accountsRoute.post("/signup", (req, res) => {
-    res.send("signup")
-    
-})
-accountsRoute.post("/signin", (req, res) => {
-    res.send("signin")
-})
-
-
-//auth
-accountsRoute.get("/users/me", (req, res) => {
-    res.send("/users/me")
-})
-
+accountsRoute.post("/signup",validateConfirmedPassword, validateSchema(signUpSchema), signUp)
 
 export { accountsRoute }
