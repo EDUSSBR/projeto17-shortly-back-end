@@ -16,3 +16,25 @@ export async function signUp(req, res) {
         res.status(500).send()
     }
 }
+
+
+export async function signIn(req, res) {
+    try {
+
+        res.send("ceate account")
+    } catch (e) {
+        console.log(e)
+        res.status(512).send("ceate account")
+
+    }
+}
+export async function getUsersInfo(req, res) {
+    try {
+
+        res.send("ceate account")
+    } catch (e) {
+        console.log(e)
+        res.status(512).send("ceate account")
+
+    }
+}
