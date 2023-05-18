@@ -1,4 +1,4 @@
-import { createLink, fetchLinkByID, deleteLinkFromDB, incrementVisitCount, fetchLinkByShortUrl } from "../repositories/links.repository.js"
+import { createLink, fetchLinkByID, deleteLinkFromDB, incrementVisitCount, fetchLinkByShortUrl, fetchRanking } from "../repositories/links.repository.js"
 import { generateShortLink } from "../utils/generateShotLink.js"
 
 
@@ -54,11 +54,12 @@ export async function deleteLink(req, res) {
     }
 }
 //ranking
-export function getLinksRank(req, res) {
+export async function getLinksRank(req, res) {
     try {
-
+        const rank = await fetchRanking()
+        res.send(rank)
     } catch (e) {
-
+        console.log(e)
+        res.status(500).send()
     }
-    res.send("urls/shorten")
 }

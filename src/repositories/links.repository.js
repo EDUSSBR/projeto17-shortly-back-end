@@ -80,3 +80,22 @@ export async function fetchLinkByShortUrl(shortUrl) {
         console.log(e)
     }
 }
+
+export async function fetchRanking() {
+    try { 
+        const queryResult = await db.query(`
+        SELECT  a.id, a.name, count(l.id) AS "linksCount", sum("visitCount") AS "visitCount" 
+        FROM accounts_links al
+        JOIN accounts a ON a.id=al."accountID"
+        JOIN links l ON l.id=al."linkID"
+        GROUP BY a.id, a.name
+        ORDER BY "visitCount" DESC
+        LIMIT 10
+        ;
+        `)
+        return queryResult.rows
+
+    } catch (e) {
+        console.log(e)
+    }
+}
