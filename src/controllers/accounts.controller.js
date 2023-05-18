@@ -1,4 +1,4 @@
-import { createAccount, emailExists, getAccountInfo } from "../repositories/accounts.repository.js"
+import { createAccount, emailExists, getAccountInfo, getUsersInfoInDB } from "../repositories/accounts.repository.js"
 import { createToken } from "../repositories/tokens.repository.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
@@ -43,8 +43,9 @@ export async function signIn(req, res) {
 }
 export async function getUsersInfo(req, res) {
     try {
-
-        res.send("ceate account")
+        const userInfo = await getUsersInfoInDB(req.tokenData.id)
+        
+        res.send(userInfo)
     } catch (e) {
         console.log(e)
         res.status(512).send("ceate account")
