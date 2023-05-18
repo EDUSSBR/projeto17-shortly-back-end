@@ -59,3 +59,24 @@ export async function deleteLinkFromDB(linkID, accountsLinksID) {
         console.log(e)
     }
 }
+
+export async function incrementVisitCount(shortUrl){
+    try {
+        const queryResult  = await db.query(`UPDATE links SET "visitCount"="visitCount"+1 WHERE "shortUrl"=$1`, [shortUrl]) 
+        return queryResult.rowCount===1
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+export async function fetchLinkByShortUrl(shortUrl) {
+    try {
+        const queryResult = await db.query(`
+        SELECT url FROM links WHERE "shortUrl"=$1;
+        `, [shortUrl])
+        return queryResult.rows[0]
+
+    } catch (e) {
+        console.log(e)
+    }
+}

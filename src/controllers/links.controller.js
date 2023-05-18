@@ -1,4 +1,4 @@
-import { createLink, fetchLinkByID, deleteLinkFromDB } from "../repositories/links.repository.js"
+import { createLink, fetchLinkByID, deleteLinkFromDB, incrementVisitCount, fetchLinkByShortUrl } from "../repositories/links.repository.js"
 import { generateShortLink } from "../utils/generateShotLink.js"
 
 
@@ -25,19 +25,27 @@ export async function getLinkByID(req, res) {
     }
 }
 ///urls/open/:shortUrl"
-export function redirectToLink(req, res) {
+export async function redirectToLink(req, res) {
     try {
-
+        const { shortUrl } = req.params
+        const [incremented, {url}] = await Promise.all([
+            incrementVisitCount(shortUrl),
+            fetchLinkByShortUrl(shortUrl)
+        ])
+        if (!incremented){
+            return res.sendStatus(404)
+        }
+        res.redirect(301, url)
     } catch (e) {
-
+        console.log(e)
+        res.sendStatus(500)
     }
-    res.send("urls/shorten")
 }
 //urls/:id
 export async function deleteLink(req, res) {
     try {
         const deleted = await deleteLinkFromDB(req.params.id, req.accountsLinksID)
-        if (deleted){
+        if (deleted) {
             res.status(204).send()
         }
     } catch (e) {
