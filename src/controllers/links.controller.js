@@ -1,4 +1,4 @@
-import { createLink, fetchLinkByID } from "../repositories/links.repository.js"
+import { createLink, fetchLinkByID, deleteLinkFromDB } from "../repositories/links.repository.js"
 import { generateShortLink } from "../utils/generateShotLink.js"
 
 
@@ -34,13 +34,16 @@ export function redirectToLink(req, res) {
     res.send("urls/shorten")
 }
 //urls/:id
-export function deleteLink(req, res) {
+export async function deleteLink(req, res) {
     try {
-
+        const deleted = await deleteLinkFromDB(req.params.id, req.accountsLinksID)
+        if (deleted){
+            res.status(204).send()
+        }
     } catch (e) {
-
+        console.log(e)
+        res.status(500).send()
     }
-    res.send("urls/shorten")
 }
 //ranking
 export function getLinksRank(req, res) {
