@@ -16,3 +16,14 @@ export async function createLink(accountID, url, shortUrl) {
         console.log(e)
     }
 }
+export async function fetchLinkByID(linkID) {
+    try {
+        const queryResult = await db.query(`
+        SELECT id, url, "shortUrl" FROM links WHERE id=$1;
+        `, [linkID])
+        return queryResult.rows[0]
+        
+    } catch (e) {
+        console.log(e)
+    }
+}

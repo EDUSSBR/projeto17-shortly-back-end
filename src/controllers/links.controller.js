@@ -1,4 +1,4 @@
-import { createLink } from "../repositories/links.repository.js"
+import { createLink, fetchLinkByID } from "../repositories/links.repository.js"
 import { generateShortLink } from "../utils/generateShotLink.js"
 
 
@@ -17,11 +17,12 @@ export async function createShortenLink(req, res) {
 ///urls/:id"
 export async function getLinkByID(req, res) {
     try {
-
+        const { id } = req.params
+        const result = await fetchLinkByID(id)
+        res.send(result)
     } catch (e) {
-
+        res.status(500).send()
     }
-    res.send("urls/shorten")
 }
 ///urls/open/:shortUrl"
 export function redirectToLink(req, res) {
