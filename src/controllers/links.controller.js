@@ -41,6 +41,23 @@ export async function redirectToLink(req, res) {
         res.sendStatus(500)
     }
 }
+///shortUrl/:shortUrl"
+export async function getLinkByShortUrlAndIncrement(req, res) {
+    try {
+        const { shortUrl } = req.params
+        const [incremented, url] = await Promise.all([
+            incrementVisitCount(shortUrl),
+            fetchLinkByShortUrl(shortUrl)
+        ])
+        if (!incremented){
+            return res.sendStatus(404)
+        }
+        res.status(301).send(url)
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(500)
+    }
+}
 //urls/:id
 export async function deleteLink(req, res) {
     try {

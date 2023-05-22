@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createShortenLink, deleteLink, getLinkByID, getLinksRank, redirectToLink } from "../controllers/links.controller.js";
+import { createShortenLink, deleteLink, getLinkByID, getLinkByShortUrlAndIncrement, getLinksRank, redirectToLink } from "../controllers/links.controller.js";
 import { authenticate } from "../middlewares/authenticationMiddleware.js";
 import { validateSchema } from "../middlewares/validateSchema.js";
 import { urlSchema } from "../schemas/createUrlSchema.js";
@@ -13,5 +13,6 @@ linksRoute.get("/urls/:id", getLinkByID)
 linksRoute.get("/urls/open/:shortUrl", redirectToLink)
 linksRoute.delete("/urls/:id", authenticate, checkOwner, deleteLink)
 linksRoute.get("/ranking", getLinksRank)
+linksRoute.get("/shortUrl/:shortUrl", getLinkByShortUrlAndIncrement)
 
 export { linksRoute }
