@@ -44,7 +44,6 @@ export async function signIn(req, res) {
 export async function getUsersInfo(req, res) {
     try {
         const userInfo = await getUsersInfoInDB(req.tokenData.id)
-        
         res.send(userInfo)
     } catch (e) {
         console.log(e)
