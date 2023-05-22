@@ -52,7 +52,7 @@ export async function getLinkByShortUrlAndIncrement(req, res) {
         if (!incremented){
             return res.sendStatus(404)
         }
-        res.status(301).send(url)
+        res.status(200).send(url)
     } catch (e) {
         console.log(e)
         res.sendStatus(500)
